@@ -79,6 +79,9 @@ func runTest(cmd *cobra.Command, args []string) error {
 	fmt.Println("\n=== Snipe-IT ===")
 	licenseName := viper.GetString("snipe_it.license_name")
 	if licenseName == "" {
+		if p := viper.GetString("slack.plan"); p != "" {
+			info.Plan = p
+		}
 		licenseName = slackapi.LicenseName(info)
 	}
 

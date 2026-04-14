@@ -64,12 +64,16 @@ func runSync(cmd *cobra.Command, args []string) error {
 
 	// Resolve license name: use configured value, or derive from workspace info.
 	// Auto-resolved format: "Slack <Plan> (<domain>)" e.g. "Slack Business+ (gallatin-ai)".
+	// Set slack.plan in settings.yaml — team.info does not return the billing plan.
 	licenseName := viper.GetString("snipe_it.license_name")
 	if licenseName == "" {
 		info, err := slackAPIClient.GetWorkspaceInfo(ctx)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Slack API error: %v\n", err)
 			return err
+		}
+		if p := viper.GetString("slack.plan"); p != "" {
+			info.Plan = p
 		}
 		licenseName = slackapi.LicenseName(info)
 		slog.Info("resolved license name from workspace", "name", licenseName)

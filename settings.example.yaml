@@ -11,6 +11,12 @@ slack:
   # Can be overridden with the SLACK_BOT_TOKEN environment variable.
   bot_token: ""
 
+  # Billing plan name to include in the auto-resolved Snipe-IT license name.
+  # Example: "Business+" produces "Slack Business+ (your-workspace)".
+  # The Slack team.info API does not return the billing plan for paid workspaces,
+  # so this must be set manually. If omitted, the name is "Slack (your-workspace)".
+  plan: ""
+
   # Incoming webhook URL for sync status notifications.
   # Optional. If omitted, all notifications are silently skipped.
   # Can be overridden with the SLACK_WEBHOOK environment variable.

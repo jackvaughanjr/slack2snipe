@@ -45,12 +45,14 @@ The `notes` field on each Snipe-IT license seat records the member type:
 
 ## License name
 
-The Snipe-IT license name is auto-resolved from the Slack API as
-`Slack <Plan> (<domain>)` — for example, `Slack Business+ (gallatin-ai)`.
-The plan string comes from `team.info` (`plan` field); an empty plan (free tier)
-maps to `Slack Free`. The domain slug is always included.
+The Snipe-IT license name is auto-resolved as `Slack <Plan> (<domain>)` —
+for example, `Slack Business+ (gallatin-ai)`.
 
-Override entirely with `snipe_it.license_name` in settings.yaml.
+**Important:** The Slack `team.info` API does not return the billing plan for paid
+workspaces. Set `slack.plan` in settings.yaml (e.g. `"Business+"`) to include it.
+Without it the name falls back to `Slack (<domain>)`.
+
+Override the name entirely with `snipe_it.license_name` in settings.yaml.
 
 A single license record covers all billable member types (full + multi-channel guests).
 
@@ -59,6 +61,7 @@ A single license record covers all billable member types (full + multi-channel g
 | Key                              | Env var           | Required | Default           | Description                              |
 |----------------------------------|-------------------|----------|-------------------|------------------------------------------|
 | `slack.bot_token`                | `SLACK_BOT_TOKEN` | Yes      | —                 | xoxb-... bot token                       |
+| `slack.plan`                     | —                 | No       | —                 | Billing plan (e.g. "Business+"); not returned by API |
 | `slack.webhook_url`              | `SLACK_WEBHOOK`   | No       | —                 | Incoming webhook for notifications       |
 | `snipe_it.url`                   | `SNIPE_URL`       | Yes      | —                 | Snipe-IT base URL                        |
 | `snipe_it.api_key`               | `SNIPE_TOKEN`     | Yes      | —                 | Snipe-IT API key                         |

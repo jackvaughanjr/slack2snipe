@@ -69,9 +69,11 @@ for the full list.
 
 ### License name
 
-The license name is auto-resolved from the Slack API as `Slack <Plan> (<domain>)` —
-for example, `Slack Business+ (your-workspace)`. Override it with
-`snipe_it.license_name` in settings.yaml if needed.
+The license name is auto-resolved as `Slack <Plan> (<domain>)` — for example,
+`Slack Business+ (your-workspace)`. The Slack API does not return the billing
+plan, so set `slack.plan: "Business+"` in settings.yaml to include it. Without
+it the name falls back to `Slack (your-workspace)`. Override the name entirely
+with `snipe_it.license_name`.
 
 ## Usage
 

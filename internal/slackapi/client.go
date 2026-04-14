@@ -61,16 +61,16 @@ type Profile struct {
 }
 
 // LicenseName returns the canonical Snipe-IT license name for a workspace.
-// Format: "Slack <Plan> (<domain>)" — e.g. "Slack Business+ (gallatin-ai)".
-// Free-tier workspaces (empty plan) use "Slack Free".
-// The domain slug is always included; it is required for disambiguation when
-// multiple Slack workspaces are tracked in the same Snipe-IT instance.
+// If Plan is set: "Slack <Plan> (<domain>)" — e.g. "Slack Business+ (gallatin-ai)".
+// If Plan is empty: "Slack (<domain>)" — e.g. "Slack (gallatin-ai)".
+//
+// The Slack team.info API does not reliably return the billing plan for paid
+// workspaces. Set slack.plan in settings.yaml to include it in the license name.
 func LicenseName(info *WorkspaceInfo) string {
-	plan := info.Plan
-	if plan == "" {
-		plan = "free"
+	if info.Plan == "" {
+		return fmt.Sprintf("Slack (%s)", info.Domain)
 	}
-	displayPlan := strings.ToUpper(plan[:1]) + plan[1:]
+	displayPlan := strings.ToUpper(info.Plan[:1]) + info.Plan[1:]
 	return fmt.Sprintf("Slack %s (%s)", displayPlan, info.Domain)
 }
 
