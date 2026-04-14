@@ -69,6 +69,27 @@ type Manufacturer struct {
 	URL  string `json:"url"`
 }
 
+type Supplier struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	URL  string `json:"url"`
+}
+
+// NewSupplier holds the fields used when creating a supplier record.
+// All fields except Name are optional — empty strings are omitted from the request.
+type NewSupplier struct {
+	Name     string
+	URL      string
+	Address  string
+	Address2 string
+	City     string
+	State    string
+	Zip      string
+	Country  string
+	Phone    string
+	Notes    string
+}
+
 // --- envelope types for POST/PATCH responses ---
 
 type envelope struct {
@@ -95,6 +116,11 @@ type userListResponse struct {
 type manufacturerListResponse struct {
 	Total int            `json:"total"`
 	Rows  []Manufacturer `json:"rows"`
+}
+
+type supplierListResponse struct {
+	Total int        `json:"total"`
+	Rows  []Supplier `json:"rows"`
 }
 
 // --- License methods ---
@@ -204,6 +230,80 @@ func (c *Client) FindOrCreateManufacturer(ctx context.Context, name, mfrURL stri
 		return mfr, nil
 	}
 	return c.CreateManufacturer(ctx, name, mfrURL)
+}
+
+// --- Supplier methods ---
+
+// FindSupplierByName searches for a supplier by exact name. Returns nil, nil if not found.
+func (c *Client) FindSupplierByName(ctx context.Context, name string) (*Supplier, error) {
+	endpoint := fmt.Sprintf("/api/v1/suppliers?search=%s&limit=50", url.QueryEscape(name))
+	var result supplierListResponse
+	if err := c.get(ctx, endpoint, &result); err != nil {
+		return nil, err
+	}
+	for i := range result.Rows {
+		if strings.EqualFold(result.Rows[i].Name, name) {
+			return &result.Rows[i], nil
+		}
+	}
+	return nil, nil
+}
+
+// CreateSupplier creates a new supplier record. Only Name is required;
+// all other fields in NewSupplier are omitted from the request when empty.
+func (c *Client) CreateSupplier(ctx context.Context, s NewSupplier) (*Supplier, error) {
+	body := map[string]any{"name": s.Name}
+	if s.URL != "" {
+		body["url"] = s.URL
+	}
+	if s.Address != "" {
+		body["address"] = s.Address
+	}
+	if s.Address2 != "" {
+		body["address2"] = s.Address2
+	}
+	if s.City != "" {
+		body["city"] = s.City
+	}
+	if s.State != "" {
+		body["state"] = s.State
+	}
+	if s.Zip != "" {
+		body["zip"] = s.Zip
+	}
+	if s.Country != "" {
+		body["country"] = s.Country
+	}
+	if s.Phone != "" {
+		body["phone"] = s.Phone
+	}
+	if s.Notes != "" {
+		body["notes"] = s.Notes
+	}
+	var env envelope
+	if err := c.post(ctx, "/api/v1/suppliers", body, &env); err != nil {
+		return nil, err
+	}
+	if env.Status != "success" {
+		return nil, fmt.Errorf("snipeit CreateSupplier: status=%q messages=%s", env.Status, string(env.Message))
+	}
+	var sup Supplier
+	if err := json.Unmarshal(env.Payload, &sup); err != nil {
+		return nil, fmt.Errorf("snipeit CreateSupplier: unmarshal payload: %w", err)
+	}
+	return &sup, nil
+}
+
+// FindOrCreateSupplier finds a supplier by name, creating it if absent.
+func (c *Client) FindOrCreateSupplier(ctx context.Context, s NewSupplier) (*Supplier, error) {
+	sup, err := c.FindSupplierByName(ctx, s.Name)
+	if err != nil {
+		return nil, err
+	}
+	if sup != nil {
+		return sup, nil
+	}
+	return c.CreateSupplier(ctx, s)
 }
 
 // UpdateLicenseSeats changes the seat count on an existing license.

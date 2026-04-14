@@ -65,7 +65,7 @@ A single license record covers all billable member types (full + multi-channel g
 | `snipe_it.license_category_id`   | —                 | Yes      | —                 | Category ID for license creation         |
 | `snipe_it.license_seats`         | —                 | No       | 0 (= active count)| Purchased seat count override            |
 | `snipe_it.license_manufacturer_id` | —               | No       | 0 (= auto)        | Manufacturer ID; auto find/create "Slack"|
-| `snipe_it.license_supplier_id`   | —                 | No       | 0                 | Supplier ID; omitted if 0                |
+| `snipe_it.license_supplier_id`   | —                 | No       | 0 (= auto)        | Supplier ID; auto find/create "Salesforce"|
 | `sync.dry_run`                   | —                 | No       | false             | Simulate without changes                 |
 | `sync.force`                     | —                 | No       | false             | Re-sync unchanged seat notes             |
 

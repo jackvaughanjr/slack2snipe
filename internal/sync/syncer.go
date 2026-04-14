@@ -22,7 +22,7 @@ type Config struct {
 	LicenseSeats int
 	// ManufacturerID is optional. If 0, auto find/create "Slack" manufacturer.
 	ManufacturerID int
-	// SupplierID is optional. If 0, no supplier is set on the license.
+	// SupplierID is optional. If 0, auto find/create "Salesforce" (Slack Technologies, LLC).
 	SupplierID int
 }
 
@@ -84,6 +84,27 @@ func (s *Syncer) Run(ctx context.Context, emailFilter string) (Result, error) {
 		manufacturerID = mfr.ID
 	}
 
+	// 5b. Resolve supplier (auto find/create Salesforce if not configured).
+	supplierID := s.cfg.SupplierID
+	if !s.cfg.DryRun && supplierID == 0 {
+		sup, err := s.snipe.FindOrCreateSupplier(ctx, snipeit.NewSupplier{
+			Name:     "Salesforce",
+			URL:      "https://www.salesforce.com",
+			Address:  "415 Mission St",
+			Address2: "Suite 300",
+			City:     "San Francisco",
+			State:    "CA",
+			Zip:      "94105",
+			Country:  "US",
+			Phone:    "1-800-667-6389",
+			Notes:    "Slack Technologies, LLC (a Salesforce company)",
+		})
+		if err != nil {
+			return result, fmt.Errorf("resolving supplier: %w", err)
+		}
+		supplierID = sup.ID
+	}
+
 	// 6. Resolve target seat count.
 	// Priority: config override → active member count (Slack does not expose purchased seat count).
 	activeCount := len(activeEmails)
@@ -110,7 +131,7 @@ func (s *Syncer) Run(ctx context.Context, emailFilter string) (Result, error) {
 			lic = &snipeit.License{Name: s.cfg.LicenseName, Seats: targetSeats}
 		}
 	} else {
-		lic, err = s.snipe.FindOrCreateLicense(ctx, s.cfg.LicenseName, targetSeats, s.cfg.LicenseCategoryID, manufacturerID, s.cfg.SupplierID)
+		lic, err = s.snipe.FindOrCreateLicense(ctx, s.cfg.LicenseName, targetSeats, s.cfg.LicenseCategoryID, manufacturerID, supplierID)
 		if err != nil {
 			return result, err
 		}

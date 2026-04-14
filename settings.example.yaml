@@ -44,7 +44,7 @@ snipe_it:
   # Optional: manufacturer ID. If 0, "Slack" is auto found or created in Snipe-IT.
   license_manufacturer_id: 0
 
-  # Optional: supplier ID. If 0, no supplier is set on the license.
+  # Optional: supplier ID. If 0, "Salesforce" (Slack Technologies, LLC) is auto found or created.
   license_supplier_id: 0
 
 sync:
