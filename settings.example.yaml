@@ -1,0 +1,67 @@
+# slack2snipe configuration
+# Copy this file to settings.yaml and fill in your values.
+# settings.yaml is gitignored and should never be committed.
+#
+# All values can be overridden with environment variables.
+# See CONTEXT.md for the full list of env var overrides.
+
+slack:
+  # Bot token for the Slack Web API (xoxb-...).
+  # Required. Grant users:read and users:read.email OAuth scopes to your Slack app.
+  # Can be overridden with the SLACK_BOT_TOKEN environment variable.
+  bot_token: ""
+
+  # If true, appends the workspace domain slug in parentheses after the license name.
+  # Example: if the workspace is named "Acme Corp" and the domain is "acme-corp",
+  # the license will be named "Acme Corp (acme-corp)".
+  # Has no effect if snipe_it.license_name is set explicitly.
+  include_workspace_slug: false
+
+  # Incoming webhook URL for sync status notifications.
+  # Optional. If omitted, all notifications are silently skipped.
+  # Can be overridden with the SLACK_WEBHOOK environment variable.
+  webhook_url: ""
+
+snipe_it:
+  # Base URL of your Snipe-IT instance.
+  # Can be overridden with the SNIPE_URL environment variable.
+  url: "https://your-snipe-it-instance.example.com"
+
+  # Snipe-IT API key with license management permissions.
+  # Generate one at: Admin → API Keys
+  # Can be overridden with the SNIPE_TOKEN environment variable.
+  api_key: ""
+
+  # Name of the Snipe-IT license record to assign seats to.
+  # If omitted, defaults to the workspace name fetched from the Slack API (team.info).
+  # Set slack.include_workspace_slug: true to append the domain slug to the auto-resolved name.
+  # Created automatically on first run if it does not exist.
+  license_name: ""
+
+  # Snipe-IT category ID to assign to the license when created. Required.
+  # Find IDs at: Admin → Categories, or via the Snipe-IT API.
+  license_category_id: 0
+
+  # Optional: total purchased seat count for the license.
+  # If 0, the active billable member count is used as the initial seat count.
+  # Seats are never shrunk automatically — only ever expanded.
+  license_seats: 0
+
+  # Optional: manufacturer ID. If 0, "Slack" is auto found or created in Snipe-IT.
+  license_manufacturer_id: 0
+
+  # Optional: supplier ID. If 0, no supplier is set on the license.
+  license_supplier_id: 0
+
+sync:
+  # Simulate a full sync without making any changes.
+  # Overridden by the --dry-run flag.
+  dry_run: false
+
+  # Re-sync seat notes even if they appear up to date.
+  # Overridden by the --force flag.
+  force: false
+
+  # Snipe-IT API rate limit in milliseconds between requests.
+  # 500ms = 2 req/s. Increase if you encounter 429 errors from Snipe-IT.
+  rate_limit_ms: 500
