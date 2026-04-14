@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"golang.org/x/time/rate"
@@ -57,6 +58,20 @@ type Profile struct {
 	RealName  string `json:"real_name"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
+}
+
+// LicenseName returns the canonical Snipe-IT license name for a workspace.
+// Format: "Slack <Plan> (<domain>)" — e.g. "Slack Business+ (gallatin-ai)".
+// Free-tier workspaces (empty plan) use "Slack Free".
+// The domain slug is always included; it is required for disambiguation when
+// multiple Slack workspaces are tracked in the same Snipe-IT instance.
+func LicenseName(info *WorkspaceInfo) string {
+	plan := info.Plan
+	if plan == "" {
+		plan = "free"
+	}
+	displayPlan := strings.ToUpper(plan[:1]) + plan[1:]
+	return fmt.Sprintf("Slack %s (%s)", displayPlan, info.Domain)
 }
 
 // MemberType returns the human-readable billing membership type for a user.

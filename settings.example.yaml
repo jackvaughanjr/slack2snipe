@@ -11,12 +11,6 @@ slack:
   # Can be overridden with the SLACK_BOT_TOKEN environment variable.
   bot_token: ""
 
-  # If true, appends the workspace domain slug in parentheses after the license name.
-  # Example: if the workspace is named "Acme Corp" and the domain is "acme-corp",
-  # the license will be named "Acme Corp (acme-corp)".
-  # Has no effect if snipe_it.license_name is set explicitly.
-  include_workspace_slug: false
-
   # Incoming webhook URL for sync status notifications.
   # Optional. If omitted, all notifications are silently skipped.
   # Can be overridden with the SLACK_WEBHOOK environment variable.
@@ -33,8 +27,8 @@ snipe_it:
   api_key: ""
 
   # Name of the Snipe-IT license record to assign seats to.
-  # If omitted, defaults to the workspace name fetched from the Slack API (team.info).
-  # Set slack.include_workspace_slug: true to append the domain slug to the auto-resolved name.
+  # If omitted, auto-resolved from the Slack API as "Slack <Plan> (<domain>)".
+  # Example: "Slack Business+ (your-workspace)".
   # Created automatically on first run if it does not exist.
   license_name: ""
 

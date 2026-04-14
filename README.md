@@ -68,9 +68,9 @@ for the full list.
 
 ### License name
 
-The license defaults to your workspace name (fetched from the Slack API).
-Set `slack.include_workspace_slug: true` to append the workspace domain, e.g.
-`Acme Corp (acme-corp)`. Override the name entirely with `snipe_it.license_name`.
+The license name is auto-resolved from the Slack API as `Slack <Plan> (<domain>)` —
+for example, `Slack Business+ (your-workspace)`. Override it with
+`snipe_it.license_name` in settings.yaml if needed.
 
 ## Usage
 

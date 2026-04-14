@@ -44,9 +44,12 @@ The `notes` field on each Snipe-IT license seat records the member type:
 
 ## License name
 
-The Snipe-IT license name defaults to the workspace name from `team.info`.
-Set `slack.include_workspace_slug: true` to append the domain slug:
-`My Company (my-company)`. Override entirely with `snipe_it.license_name`.
+The Snipe-IT license name is auto-resolved from the Slack API as
+`Slack <Plan> (<domain>)` — for example, `Slack Business+ (gallatin-ai)`.
+The plan string comes from `team.info` (`plan` field); an empty plan (free tier)
+maps to `Slack Free`. The domain slug is always included.
+
+Override entirely with `snipe_it.license_name` in settings.yaml.
 
 A single license record covers all billable member types (full + multi-channel guests).
 
@@ -55,11 +58,10 @@ A single license record covers all billable member types (full + multi-channel g
 | Key                              | Env var           | Required | Default           | Description                              |
 |----------------------------------|-------------------|----------|-------------------|------------------------------------------|
 | `slack.bot_token`                | `SLACK_BOT_TOKEN` | Yes      | —                 | xoxb-... bot token                       |
-| `slack.include_workspace_slug`   | —                 | No       | false             | Append domain slug to license name       |
 | `slack.webhook_url`              | `SLACK_WEBHOOK`   | No       | —                 | Incoming webhook for notifications       |
 | `snipe_it.url`                   | `SNIPE_URL`       | Yes      | —                 | Snipe-IT base URL                        |
 | `snipe_it.api_key`               | `SNIPE_TOKEN`     | Yes      | —                 | Snipe-IT API key                         |
-| `snipe_it.license_name`          | —                 | No       | workspace name    | License name override                    |
+| `snipe_it.license_name`          | —                 | No       | Slack Plan (domain) | License name override                 |
 | `snipe_it.license_category_id`   | —                 | Yes      | —                 | Category ID for license creation         |
 | `snipe_it.license_seats`         | —                 | No       | 0 (= active count)| Purchased seat count override            |
 | `snipe_it.license_manufacturer_id` | —               | No       | 0 (= auto)        | Manufacturer ID; auto find/create "Slack"|
