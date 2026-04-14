@@ -15,6 +15,7 @@ the workspace domain slug in parentheses (e.g. `My Company (my-company)`).
 A Slack bot token (`xoxb-...`) from an app installed in the target workspace.
 
 Required OAuth scopes:
+- `team:read` — fetch workspace name, domain, and plan via `team.info`
 - `users:read` — enumerate workspace members and their metadata
 - `users:read.email` — read email addresses (required for Snipe-IT user matching)
 

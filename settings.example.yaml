@@ -7,7 +7,7 @@
 
 slack:
   # Bot token for the Slack Web API (xoxb-...).
-  # Required. Grant users:read and users:read.email OAuth scopes to your Slack app.
+  # Required. Grant team:read, users:read, and users:read.email OAuth scopes to your Slack app.
   # Can be overridden with the SLACK_BOT_TOKEN environment variable.
   bot_token: ""
 
