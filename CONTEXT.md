@@ -125,3 +125,11 @@ CONTEXT.md
   `users.list`), require an org-level token, and span multiple workspaces. A separate
   variant would enumerate workspaces first, then members per workspace, and could
   maintain one license record per workspace or one aggregate license.
+
+- Plan auto-detection: `team.info` does not return the billing plan for paid
+  workspaces. Investigate whether a small set of API calls — gated on plan level
+  by Slack — can be used to bracket the plan (e.g. call an endpoint that only
+  exists on Business+ and treat a non-404 as confirmation). Only viable if the
+  additional scope(s) required are negligible (ideally none beyond what is already
+  granted). If feasible, remove the `slack.plan` config key and derive the name
+  automatically.
