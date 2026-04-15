@@ -10,6 +10,8 @@ synced into a single license record. Single-channel guests, bots, and deleted
 accounts are excluded. Each seat's notes field records the member type
 (`full member` or `multi-channel guest`) so asset managers can audit usage.
 
+> Part of the [\*2snipe](https://github.com/jackvaughanjr?tab=repositories&q=2snipe) integration family, inspired by [CampusTech](https://github.com/CampusTech)'s Snipe-IT integrations.
+
 ## How it works
 
 1. Fetches all billable members from your Slack workspace via `users.list`
@@ -127,10 +129,11 @@ Sync a single user:
 
 | Version | Key changes |
 |---------|-------------|
-| v1.0.0 | Initial scaffold — sync Slack workspace members into Snipe-IT license seats |
-| v1.0.1 | Changed license name format to `Slack <Plan> (<slug>)` |
-| v1.1.0 | Auto find/create Salesforce as supplier in Snipe-IT when none configured |
-| v1.1.1 | Added missing `team:read` OAuth scope |
-| v1.1.2 | Fixed license name — added `slack.plan` config key; `team.info` does not return billing plan for paid workspaces |
-| v1.1.3 | Documented plan auto-detection investigation as a TODO |
+| v1.2.0 | Make Snipe-IT API rate limit configurable via `sync.rate_limit_ms` and `SNIPE_RATE_LIMIT_MS` env var |
 | v1.1.4 | Pre-compact documentation cleanup |
+| v1.1.3 | Documented plan auto-detection investigation as a TODO |
+| v1.1.2 | Fixed license name — added `slack.plan` config key; `team.info` does not return billing plan for paid workspaces |
+| v1.1.1 | Added missing `team:read` OAuth scope |
+| v1.1.0 | Auto find/create Salesforce as supplier in Snipe-IT when none configured |
+| v1.0.1 | Changed license name format to `Slack <Plan> (<slug>)` |
+| v1.0.0 | Initial scaffold — sync Slack workspace members into Snipe-IT license seats |

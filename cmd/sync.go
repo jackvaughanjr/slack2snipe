@@ -55,7 +55,11 @@ func runSync(cmd *cobra.Command, args []string) error {
 	}
 
 	slackAPIClient := slackapi.NewClient(botToken)
-	snipeClient := snipeit.NewClient(snipeURL, snipeKey)
+	rateLimitMs := viper.GetInt("sync.rate_limit_ms")
+	if rateLimitMs <= 0 {
+		rateLimitMs = 500
+	}
+	snipeClient := snipeit.NewClient(snipeURL, snipeKey, rateLimitMs)
 
 	if err := slackAPIClient.ValidateToken(ctx); err != nil {
 		fmt.Fprintf(os.Stderr, "Slack API error: %v\n", err)
