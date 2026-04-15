@@ -1,5 +1,7 @@
 # slack2snipe
 
+[![Latest Release](https://img.shields.io/github/v/release/jackvaughanjr/slack2snipe)](https://github.com/jackvaughanjr/slack2snipe/releases/latest) [![Go Version](https://img.shields.io/github/go-mod/go-version/jackvaughanjr/slack2snipe)](go.mod) [![License](https://img.shields.io/github/license/jackvaughanjr/slack2snipe)](LICENSE) [![Build](https://github.com/jackvaughanjr/slack2snipe/actions/workflows/release.yml/badge.svg)](https://github.com/jackvaughanjr/slack2snipe/actions/workflows/release.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/jackvaughanjr/slack2snipe)](https://goreportcard.com/report/github.com/jackvaughanjr/slack2snipe) [![Downloads](https://img.shields.io/github/downloads/jackvaughanjr/slack2snipe/total)](https://github.com/jackvaughanjr/slack2snipe/releases)
+
 Syncs active [Slack](https://slack.com) workspace members into [Snipe-IT](https://snipeitapp.com)
 as license seat assignments.
 
