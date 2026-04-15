@@ -1,0 +1,70 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jackvaughanjr/2snipe-manager/main/2snipe.schema.json",
+  "name": "slack2snipe",
+  "display_name": "Slack",
+  "description": "Sync billable Slack workspace members to Snipe-IT license seats",
+  "version": "1.2.0",
+  "min_snipemgr": "0.1.0",
+  "tags": ["saas", "communication", "collaboration"],
+  "category": "Communication & Collaboration",
+  "config_schema": [
+    {
+      "key": "slack.bot_token",
+      "label": "Slack Bot Token",
+      "secret": true,
+      "required": true,
+      "hint": "xoxb-... token from your Slack app. Required OAuth scopes: team:read, users:read, users:read.email"
+    },
+    {
+      "key": "slack.plan",
+      "label": "Billing Plan Name",
+      "secret": false,
+      "required": false,
+      "hint": "Optional. Included in the auto-resolved license name, e.g. \"Business+\" → \"Slack Business+ (your-workspace)\""
+    },
+    {
+      "key": "snipe_it.url",
+      "label": "Snipe-IT URL",
+      "secret": false,
+      "required": true,
+      "hint": "e.g. https://snipe.example.com"
+    },
+    {
+      "key": "snipe_it.api_key",
+      "label": "Snipe-IT API Key",
+      "secret": true,
+      "required": true,
+      "hint": "Admin → API Keys in your Snipe-IT instance"
+    },
+    {
+      "key": "snipe_it.license_category_id",
+      "label": "Snipe-IT License Category ID",
+      "secret": false,
+      "required": true,
+      "hint": "Find at Admin → Categories (integer ID)"
+    },
+    {
+      "key": "snipe_it.license_name",
+      "label": "Snipe-IT License Name",
+      "secret": false,
+      "required": false,
+      "hint": "Optional. Overrides the auto-resolved name (\"Slack <Plan> (<workspace>)\")"
+    },
+    {
+      "key": "slack.webhook_url",
+      "label": "Slack Webhook URL",
+      "secret": true,
+      "required": false,
+      "hint": "Optional. Incoming webhook for sync notifications (separate from the bot token)"
+    }
+  ],
+  "shared_config": ["snipe_it"],
+  "commands": {
+    "sync": true,
+    "test": true
+  },
+  "releases": {
+    "github_releases": true,
+    "asset_pattern": "slack2snipe-{os}-{arch}"
+  }
+}
