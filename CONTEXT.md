@@ -7,8 +7,7 @@ Syncs billable Slack workspace members into Snipe-IT as license seat assignments
 types charged by Slack. Single-channel guests, bots, and deleted accounts are excluded.
 
 A single Snipe-IT license record covers all billable member types. The license name
-defaults to the workspace name fetched from the Slack API, and can optionally include
-the workspace domain slug in parentheses (e.g. `My Company (my-company)`).
+is auto-resolved as `Slack <Plan> (<domain>)` — e.g. `Slack Business+ (gallatin-ai)`.
 
 ## Auth
 

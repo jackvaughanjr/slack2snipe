@@ -11,7 +11,7 @@ accounts are excluded. Each seat's notes field records the member type
 ## How it works
 
 1. Fetches all billable members from your Slack workspace via `users.list`
-2. Finds or creates a license in Snipe-IT (named after your workspace by default)
+2. Finds or creates a license in Snipe-IT named `Slack <Plan> (<domain>)` — e.g. `Slack Business+ (gallatin-ai)`
 3. Checks out seats for active members — creating Snipe-IT users if `--create-users` is set
 4. Checks in seats for members who have left the workspace
 5. Records each member's type in the seat notes field
